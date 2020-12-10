@@ -1,0 +1,21 @@
+version: 2
+
+updates:
+  # requires dependabot/dependabot-core#390
+  # - package-ecosystem: "docker"
+  #  <<: *shared
+  #   directory: "/"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    reviewers:
+      - "groupsky"
+
+  - package-ecosystem: "docker"
+    directory: "/docker/wireguard"
+    schedule:
+      interval: "daily"
+    reviewers:
+      - "groupsky"

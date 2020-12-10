@@ -1,0 +1,27 @@
+version: '3'
+services:
+
+  vpn:
+    build: docker/wireguard
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - PUID=$UID
+      - PGID=$GID
+      - TZ=$TZ
+      - SERVERURL=$VPN_PUBLIC_URL
+      - SERVERPORT=$VPN_PUBLIC_PORT
+      - PEERS=$VPN_PEERS
+      - PEERDNS=auto
+      - INTERNAL_SUBNET=$VPN_SUBNET
+      - ALLOWEDIPS=$VPN_ALLOWED_IPS
+    volumes:
+      - ./data/wireguard:/config
+      - ./config/wireguard/templates:/config/templates:ro
+      - /lib/modules:/lib/modules
+    ports:
+      - "${VPN_PUBLIC_PORT}:51820/udp"
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
